@@ -115,6 +115,16 @@ if cmd == 'encode':
 
     assert cv2.imwrite(fn3, img_wm, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
 
+    # 这里计算下保存前后的(溢出)误差
+    img_wm2 = cv2.imread(fn3)
+    sum = 0
+    for i in xrange(img_wm.shape[0]):
+        for j in xrange(img_wm.shape[1]):
+            for k in xrange(img_wm.shape[2]):
+                sum += np.power(img_wm[i][j][k] - img_wm2[i][j][k], 2)
+    miss = np.sqrt(sum) / (img_wm.shape[0] * img_wm.shape[1] * img_wm.shape[2]) * 100
+    print 'Miss %s%% in save' % miss
+
     if debug:
         plt.subplot(233), plt.imshow(bgr_to_rgb(np.uint8(img_wm))), \
             plt.title('image(encoded)')
