@@ -15,10 +15,30 @@
 合成盲水印图
 
     python bwm.py encode hui.png wm.png hui_with_wm.png
+    
+![image](https://github.com/chishaxie/BlindWaterMark/raw/master/hui.png)
+
++
+
+![image](https://github.com/chishaxie/BlindWaterMark/raw/master/wm.png)
+
+->
+
+![image](https://github.com/chishaxie/BlindWaterMark/raw/master/hui_with_wm.png)
 
 提取图中的盲水印 (需要原图)
 
     python bwm.py decode hui.png hui_with_wm.png wm_from_hui.png
+
+![image](https://github.com/chishaxie/BlindWaterMark/raw/master/hui.png)
+
++
+
+![image](https://github.com/chishaxie/BlindWaterMark/raw/master/hui_with_wm.png)
+
+->
+
+![image](https://github.com/chishaxie/BlindWaterMark/raw/master/wm_from_hui.png)
 
 ### Usage
 
