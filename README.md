@@ -15,7 +15,7 @@
 合成盲水印图
 
     python bwm.py encode hui.png wm.png hui_with_wm.png
-    
+
 ![image](https://github.com/chishaxie/BlindWaterMark/raw/master/hui.png)
 
 +

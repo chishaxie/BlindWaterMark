@@ -102,7 +102,7 @@ if cmd == 'encode':
             plt.title('encrypted(watermark)')
         plt.xticks([]), plt.yticks([])
 
-    f1 = np.fft.fft2(img) # 计算二维离散傅立叶变换
+    f1 = np.fft.fft2(img)
     f2 = f1 + alpha * rwm
     _img = np.fft.ifft2(f2)
 
@@ -133,7 +133,7 @@ if cmd == 'encode':
             wm[rwm.shape[0] - i - 1][rwm.shape[1] - j - 1] = wm[i][j]
 
     if debug:
-        assert cv2.imwrite('_bwm.debug.wm.jpg', wm, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+        assert cv2.imwrite('_bwm.debug.wm.jpg', wm)
         plt.subplot(236), plt.imshow(bgr_to_rgb(wm)), plt.title(u'watermark')
         plt.xticks([]), plt.yticks([])
 
@@ -156,7 +156,7 @@ elif cmd == 'decode':
     random.shuffle(m)
     random.shuffle(n)
 
-    f1 = np.fft.fft2(img) # 计算二维离散傅立叶变换
+    f1 = np.fft.fft2(img)
     f2 = np.fft.fft2(img_wm)
 
     if debug:
@@ -182,7 +182,7 @@ elif cmd == 'decode':
     for i in xrange(int(rwm.shape[0] * 0.5)):
         for j in xrange(rwm.shape[1]):
             wm[rwm.shape[0] - i - 1][rwm.shape[1] - j - 1] = wm[i][j]
-    assert cv2.imwrite(fn3, wm, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+    assert cv2.imwrite(fn3, wm)
 
     if debug:
         plt.subplot(236), plt.imshow(bgr_to_rgb(wm)), plt.title(u'watermark')
