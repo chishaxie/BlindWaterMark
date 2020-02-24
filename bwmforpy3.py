@@ -7,6 +7,7 @@ import random
 cmd = None
 debug = False
 seed = 20160930
+oldseed = False
 alpha = 3.0
 
 if __name__ == '__main__':
@@ -20,6 +21,7 @@ if __name__ == '__main__':
         print ('  opts:')
         print ('    --debug,          Show debug')
         print ('    --seed <int>,     Manual setting random seed (default is 20160930)')
+        print ('    --oldseed         Use python2 random algorithm.')
         print ('    --alpha <float>,  Manual setting alpha (default is 3.0)')
         sys.exit(1)
     cmd = sys.argv[1]
@@ -37,6 +39,9 @@ if __name__ == '__main__':
         seed = int(sys.argv[p+1])
         del sys.argv[p+1]
         del sys.argv[p]
+    if '--oldseed' in sys.argv:
+        oldseed = True
+        del sys.argv[sys.argv.index('--oldseed')]
     if '--alpha' in sys.argv:
         p = sys.argv.index('--alpha')
         if len(sys.argv) <= p+1:
@@ -83,10 +88,16 @@ if cmd == 'encode':
         for j in range(wm.shape[1]):
             hwm2[i][j] = wm[i][j]
 
-    random.seed(seed)
+    if oldseed: random.seed(seed,version=1)
+    else: random.seed(seed)
     m, n = list(range(hwm.shape[0])), list(range(hwm.shape[1]))
-    random.shuffle(m)
-    random.shuffle(n)
+    if oldseed:
+        random.shuffle(m,random=random.random)
+        random.shuffle(n,random=random.random)
+    else:
+        random.shuffle(m)
+        random.shuffle(n)
+
     for i in range(hwm.shape[0]):
         for j in range(hwm.shape[1]):
             hwm[i][j] = hwm2[m[i]][n[j]]
@@ -161,10 +172,15 @@ elif cmd == 'decode':
         plt.subplot(234), plt.imshow(bgr_to_rgb(img_wm)), plt.title('image(encoded)')
         plt.xticks([]), plt.yticks([])
 
-    random.seed(seed)
+    if oldseed: random.seed(seed,version=1)
+    else: random.seed(seed)
     m, n = list(range(int(img.shape[0] * 0.5))), list(range(img.shape[1]))
-    random.shuffle(m)
-    random.shuffle(n)
+    if oldseed:
+        random.shuffle(m,random=random.random)
+        random.shuffle(n,random=random.random)
+    else:
+        random.shuffle(m)
+        random.shuffle(n)
 
     f1 = np.fft.fft2(img)
     f2 = np.fft.fft2(img_wm)
