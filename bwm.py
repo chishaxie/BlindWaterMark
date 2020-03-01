@@ -45,12 +45,6 @@ if __name__ == '__main__':
         alpha = float(sys.argv[p+1])
         del sys.argv[p+1]
         del sys.argv[p]
-    if len(sys.argv) < 5:
-        print 'Missing arg...'
-        sys.exit(1)
-    fn1 = sys.argv[2]
-    fn2 = sys.argv[3]
-    fn3 = sys.argv[4]
 
 import cv2
 import numpy as np
@@ -62,10 +56,19 @@ def bgr_to_rgb(img):
     b, g, r = cv2.split(img)
     return cv2.merge([r, g, b])
 
-if cmd == 'encode':
-    print 'image<%s> + watermark<%s> -> image(encoded)<%s>' % (fn1, fn2, fn3)
-    img = cv2.imread(fn1)
-    wm = cv2.imread(fn2)
+def getImgAndWm(image, watermark):
+    img = cv2.imread(image, cv2.IMREAD_UNCHANGED)
+    if len(cv2.split(img)) < 4:
+        img = cv2.imread(image)
+        wm = cv2.imread(watermark)
+    else:
+        wm = cv2.imread(watermark, cv2.IMREAD_UNCHANGED)
+
+    return img, wm
+
+def encode(image, watermark):
+    print 'image<%s> + watermark<%s>' % (image, watermark)
+    img, wm = getImgAndWm(image, watermark)
 
     if debug:
         plt.subplot(231), plt.imshow(bgr_to_rgb(img)), plt.title('image')
@@ -76,8 +79,11 @@ if cmd == 'encode':
     # print img.shape # 高, 宽, 通道
     h, w = img.shape[0], img.shape[1]
     hwm = np.zeros((int(h * 0.5), w, img.shape[2]))
-    assert hwm.shape[0] > wm.shape[0]
-    assert hwm.shape[1] > wm.shape[1]
+    if hwm.shape[0] < wm.shape[0]:
+        return
+    if hwm.shape[1] < wm.shape[1]:
+        return
+
     hwm2 = np.copy(hwm)
     for i in xrange(wm.shape[0]):
         for j in xrange(wm.shape[1]):
@@ -112,45 +118,19 @@ if cmd == 'encode':
         plt.xticks([]), plt.yticks([])
 
     img_wm = np.real(_img)
+    assert cv2.imwrite(image, img_wm, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
 
-    assert cv2.imwrite(fn3, img_wm, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-
-    # 这里计算下保存前后的(溢出)误差
-    img_wm2 = cv2.imread(fn3)
-    sum = 0
-    for i in xrange(img_wm.shape[0]):
-        for j in xrange(img_wm.shape[1]):
-            for k in xrange(img_wm.shape[2]):
-                sum += np.power(img_wm[i][j][k] - img_wm2[i][j][k], 2)
-    miss = np.sqrt(sum) / (img_wm.shape[0] * img_wm.shape[1] * img_wm.shape[2]) * 100
-    print 'Miss %s%% in save' % miss
-
-    if debug:
-        plt.subplot(233), plt.imshow(bgr_to_rgb(np.uint8(img_wm))), \
-            plt.title('image(encoded)')
-        plt.xticks([]), plt.yticks([])
-
-    f2 = np.fft.fft2(img_wm)
-    rwm = (f2 - f1) / alpha
-    rwm = np.real(rwm)
-
-    wm = np.zeros(rwm.shape)
-    for i in xrange(int(rwm.shape[0] * 0.5)):
-        for j in xrange(rwm.shape[1]):
-            wm[m[i]][n[j]] = np.uint8(rwm[i][j])
-    for i in xrange(int(rwm.shape[0] * 0.5)):
-        for j in xrange(rwm.shape[1]):
-            wm[rwm.shape[0] - i - 1][rwm.shape[1] - j - 1] = wm[i][j]
-
-    if debug:
-        assert cv2.imwrite('_bwm.debug.wm.jpg', wm)
-        plt.subplot(236), plt.imshow(bgr_to_rgb(wm)), plt.title(u'watermark')
-        plt.xticks([]), plt.yticks([])
-
-    if debug:
-        plt.show()
+if cmd == 'encode':
+    watermark = sys.argv[2]
+    for x in range(3, len(sys.argv)):
+        image =  sys.argv[x]
+        encode(image, watermark)
 
 elif cmd == 'decode':
+    fn1 = sys.argv[2]
+    fn2 = sys.argv[3]
+    fn3 = sys.argv[4]
+
     print 'image<%s> + image(encoded)<%s> -> watermark<%s>' % (fn1, fn2, fn3)
     img = cv2.imread(fn1)
     img_wm = cv2.imread(fn2)
