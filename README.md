@@ -4,7 +4,8 @@
 
 ### 文件说明
 
-* bwm.py 程序文件
+* bwm.py 程序文件python2版本
+* bwmforpy3.py 程序文件python3版本
 * hui.png 无水印的原图
 * wm.png 水印图
 * hui_with_wm.png 有盲水印的图
@@ -40,7 +41,18 @@
 
 ![image](https://github.com/chishaxie/BlindWaterMark/raw/master/wm_from_hui.png)
 
+### install dependency
+
+```bash
+pip install -r requirements.txt
+```
+
 ### Usage
+
+注意程序python2和python3版本的加解密结果会有所不同，主要原因是python2和python3 random的算法不同，如果要让python3兼容python2的random算法请加 --oldseed参数。
+
+
+Note that the enode and decode results of the python2 and python3 versions of the program will be different. The main reason is that the python2 and python3 random algorithms are different. If you want to make python3 compatible with the random algorithm of python2, please add the --oldseed parameter.
 
     Usage: python bwm.py <cmd> [arg...] [opts...]
       cmds:
@@ -51,4 +63,6 @@
       opts:
         --debug,          Show debug
         --seed <int>,     Manual setting random seed (default is 20160930)
+        --oldseed         For python3 to use python2 random algorithm.
         --alpha <float>,  Manual setting alpha (default is 3.0)
+
