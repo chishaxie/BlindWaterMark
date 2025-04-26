@@ -72,11 +72,11 @@ Note that the encode and decode results of the python2 and python3 versions of t
     python bwm.py encode hui.png wm.png hui_with_wm.png --oldseed
 
 <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-  <img src="https://github.com/chishaxie/BlindWaterMark/raw/master/hui.png" width="200"/>
+  <img src="hui.png" width="200"/>
   <span style="font-size: 24px;">+</span>
-  <img src="https://github.com/chishaxie/BlindWaterMark/raw/master/wm.png" width="200"/>
+  <img src="wm.png" width="200"/>
   <span style="font-size: 24px;">→</span>
-  <img src="https://github.com/chishaxie/BlindWaterMark/raw/master/hui_with_wm.png" width="200"/>
+  <img src="hui_with_wm.png" width="200"/>
 </div><br>
 
 提取图中的盲水印 (需要原图)
@@ -84,11 +84,11 @@ Note that the encode and decode results of the python2 and python3 versions of t
     python bwm.py decode hui.png hui_with_wm.png wm_from_hui.png --oldseed
 
 <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-  <img src="https://github.com/chishaxie/BlindWaterMark/raw/master/hui.png" width="200"/>
+  <img src="hui.png" width="200"/>
   <span style="font-size: 24px;">+</span>
-  <img src="https://github.com/chishaxie/BlindWaterMark/raw/master/hui_with_wm.png" width="200"/>
+  <img src="hui_with_wm.png" width="200"/>
   <span style="font-size: 24px;">→</span>
-  <img src="https://github.com/chishaxie/BlindWaterMark/raw/master/wm_from_hui.png" width="200"/>
+  <img src="wm_from_hui.png" width="200"/>
 </div><br>
 
 
