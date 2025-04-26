@@ -3,6 +3,7 @@
 
 import sys
 import random
+import cv2    #opencv-python
 
 cmd = None
 debug = False
@@ -57,15 +58,28 @@ if __name__ == '__main__':
     fn2 = sys.argv[3]
     fn3 = sys.argv[4]
 
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
+
 
 # OpenCV是以(BGR)的顺序存储图像数据的
 # 而Matplotlib是以(RGB)的顺序显示图像的
 def bgr_to_rgb(img):
     b, g, r = cv2.split(img)
     return cv2.merge([r, g, b])
+
+
+#random.shuffle的random关键字炸了喵
+def old_shuffle(x):
+    for i in reversed(range(1, len(x))):
+        j = int( random.random() * (i + 1) )
+        x[i], x[j] = x[j], x[i]
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+if not debug:
+    import matplotlib
+    matplotlib.use('Agg')
+
 
 if cmd == 'encode':
     print ('image<%s> + watermark<%s> -> image(encoded)<%s>' % (fn1, fn2, fn3))
@@ -92,8 +106,8 @@ if cmd == 'encode':
     else: random.seed(seed)
     m, n = list(range(hwm.shape[0])), list(range(hwm.shape[1]))
     if oldseed:
-        random.shuffle(m,random=random.random)
-        random.shuffle(n,random=random.random)
+        old_shuffle(m)
+        old_shuffle(n)
     else:
         random.shuffle(m)
         random.shuffle(n)
@@ -176,8 +190,8 @@ elif cmd == 'decode':
     else: random.seed(seed)
     m, n = list(range(int(img.shape[0] * 0.5))), list(range(img.shape[1]))
     if oldseed:
-        random.shuffle(m,random=random.random)
-        random.shuffle(n,random=random.random)
+        old_shuffle(m)
+        old_shuffle(n)
     else:
         random.shuffle(m)
         random.shuffle(n)
@@ -216,3 +230,4 @@ elif cmd == 'decode':
 
     if debug:
         plt.show()
+
