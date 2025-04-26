@@ -61,6 +61,7 @@ import random
 import cv2    #opencv-python
 
 
+
 # OpenCV是以(BGR)的顺序存储图像数据的
 # 而Matplotlib是以(RGB)的顺序显示图像的
 def bgr_to_rgb(img):
@@ -86,6 +87,8 @@ if cmd == 'encode':
     print ('image<%s> + watermark<%s> -> image(encoded)<%s>' % (fn1, fn2, fn3))
     img = cv2.imread(fn1)
     wm = cv2.imread(fn2)
+    if img is None:    raise FileNotFoundError("can't find %s"%fn1)
+    if wm is None:    raise FileNotFoundError("can't find %s"%fn2)
 
     if debug:
         plt.subplot(231), plt.imshow(bgr_to_rgb(img)), plt.title('image')
@@ -180,6 +183,8 @@ elif cmd == 'decode':
     print ('image<%s> + image(encoded)<%s> -> watermark<%s>' % (fn1, fn2, fn3))
     img = cv2.imread(fn1)
     img_wm = cv2.imread(fn2)
+    if img is None:    raise FileNotFoundError("can't find %s"%fn1)
+    if img_wm is None:    raise FileNotFoundError("can't find %s"%fn2)
 
     if debug:
         plt.subplot(231), plt.imshow(bgr_to_rgb(img)), plt.title('image')
