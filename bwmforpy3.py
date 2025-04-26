@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-import sys
-import random
-import cv2    #opencv-python
 
 cmd = None
 debug = False
@@ -12,6 +9,7 @@ oldseed = False
 alpha = 3.0
 
 if __name__ == '__main__':
+    import sys
     if '-h' in sys.argv or '--help' in sys.argv or len(sys.argv) < 2:
         print ('Usage: python bwm.py <cmd> [arg...] [opts...]')
         print ('  cmds:')
@@ -58,6 +56,9 @@ if __name__ == '__main__':
     fn2 = sys.argv[3]
     fn3 = sys.argv[4]
 
+
+import random
+import cv2    #opencv-python
 
 
 # OpenCV是以(BGR)的顺序存储图像数据的
