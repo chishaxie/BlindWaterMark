@@ -69,7 +69,7 @@ Note that the encode and decode results of the python2 and python3 versions of t
 
 合成盲水印图
 
-    python bwm.py encode hui.png wm.png hui_with_wm.png --oldseed
+    python bwm.py encode hui.png wm.png hui_with_wm.png
 
 <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
   <img src="hui.png" width="200"/>
@@ -81,7 +81,7 @@ Note that the encode and decode results of the python2 and python3 versions of t
 
 提取图中的盲水印 (需要原图)
 
-    python bwm.py decode hui.png hui_with_wm.png wm_from_hui.png --oldseed
+    python bwm.py decode hui.png hui_with_wm.png wm_from_hui.png
 
 <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
   <img src="hui.png" width="200"/>
